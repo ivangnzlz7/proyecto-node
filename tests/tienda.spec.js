@@ -84,10 +84,10 @@ describe('Tienda', function () {
         }
         const selectorCarrito = By.css('#contenido-carrito .cargando');
 
-        // 2. Le decimos a Selenium: "Espera hasta un máximo de 10 segundos a que aparezca"
+        // Espera hasta un máximo de 10 segundos a que aparezca
         let elementoCargando = await driver.wait(
             until.elementLocated(selectorCarrito),
-            10000 // Tiempo máximo de espera en milisegundos
+            10000 
         );
         let texto = await elementoCargando.getText();
         expect(texto).to.equal('El carrito está vacío.');
