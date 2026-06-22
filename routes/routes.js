@@ -75,7 +75,7 @@ routes.delete('/carrito/eliminar/:productoId', async (req, res) => {
   }
 });
 
-routes.post('/carrito/vaciar', async (req, res) => {
+routes.delete('/carrito/vaciar', async (req, res) => {
   try {
 
     const cart = await cleanCart();
