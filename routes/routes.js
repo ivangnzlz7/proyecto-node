@@ -2,7 +2,6 @@ import express from 'express';
 import { getAll } from '../productos/productos.js';
 import {
   getCartItems,
-  getOrCreateCart,
   addItem,
   updateItemQuantity,
   removeItem,
@@ -63,7 +62,7 @@ routes.put('/carrito/actualizar/:productoId', async (req, res) => {
   }
 });
 
-routes.delete('/carrito/eliminar/:productoId', async (req, res) => {
+routes.put('/carrito/eliminar/:productoId', async (req, res) => {
   try {
     const { productoId } = req.params;
     let productIdNum = parseInt(productoId);
