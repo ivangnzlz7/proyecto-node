@@ -20,12 +20,12 @@ export const addItem = async (producto_id, cantidad) => {
     }
 
     // Verificar si el producto ya está en el carrito
-    const [itemExist] = await pool.query('SELECT id, cantidad FROM carrito WHERE producto_id = ?', [producto_id]);
+    const [itemExist] = await pool.query('SELECT id, cantidad, estado FROM carrito WHERE producto_id = ?', [producto_id]);
 
     if (itemExist.length > 0) {
       // Si ya existe, actualizamos la cantidad sumando la nueva
       const nuevaCantidad = itemExist[0].cantidad + cantidad;
-      await pool.query('UPDATE carrito SET cantidad = ? WHERE producto_id = ?', [nuevaCantidad, producto_id]);
+      await pool.query('UPDATE carrito SET cantidad = ?, estado = "activo" WHERE producto_id = ?', [nuevaCantidad, producto_id]);
     } else {
       // Si no existe, lo insertamos de cero
       await pool.query('INSERT INTO carrito (producto_id, cantidad, estado) VALUES (?, ?, "activo")', [producto_id, cantidad]);
@@ -80,7 +80,7 @@ export const removeItem = async (carrito_id) => {
   try {
     const [result] = await pool.query(`
           UPDATE carrito
-          SET estado = 'eliminado'
+          SET estado = 'eliminado', cantidad = 0
           WHERE id = ? AND estado = 'activo'
           `, [carrito_id]);
     if (result.affectedRows === 0) {
