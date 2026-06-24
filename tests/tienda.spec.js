@@ -44,12 +44,10 @@ describe('Tienda', function () {
     it('2. Flujo de compra (Agregar al carrito)', async function () {
         const localizadorBoton = By.css('#contenedor-productos .producto-card:first-child .btn-agregar');
         
-        // Esperas dinámicas cortas (3-5 segundos)
         const boton = await driver.wait(until.elementLocated(localizadorBoton), 4000);
         await driver.wait(until.elementIsVisible(boton), 3000);
         await boton.click();
 
-        // Esperar a que el texto del carrito cambie 
         const elementoCarrito = await driver.wait(
             until.elementLocated(By.css('#contenido-carrito .item-carrito .item-detalles h4')), 
             4000
@@ -60,12 +58,12 @@ describe('Tienda', function () {
     });
 
     it('3. Comprobar productos en el carrito y vaciar el mismo', async function () {
-        // Este test ahora funciona porque el Test 2 ya dejó un producto en el carrito
+        
         const cleanButton = await driver.findElement(By.css('#btn-vaciar'));
         await cleanButton.click();
 
         try {
-            // Manejo de la alerta rápido
+            // Manejo de la alerta
             await driver.wait(until.alertIsPresent(), 2000);
             let alert = await driver.switchTo().alert();
             await alert.accept();
@@ -75,7 +73,6 @@ describe('Tienda', function () {
 
         const selectorCarrito = By.css('#contenido-carrito .cargando');
         
-        // Esperamos que aparezca el texto de vacío
         let elementoCargando = await driver.wait(until.elementLocated(selectorCarrito), 3000);
         let texto = await elementoCargando.getText();
         
